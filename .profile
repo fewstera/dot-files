@@ -2,16 +2,16 @@ if command -v tmux>/dev/null; then
   [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux
 fi
 
+export PATH=$PATH:/Users/fewsta03/.rvm/gems/ruby-2.3.0/bin
 export PATH=$PATH:~/.composer/vendor/bin
 export PATH=$PATH:/usr/local/Cellar/node012/0.12.7/libexec/npm/bin
 export PATH=/usr/local/bin:$PATH 
-
 
 #note you may need to change the below variable to en1
 NETWORK_DEVICE=en0
 
 # PROXY
-alias onreith='onreith_npm;  onreith_git; onreith_env; switch_to_on_network; switch_to_corporate_wireless                                              newline; echo "Now on REITH. Run \"bbc mount\" to mount your network drives."; newline'
+alias onreith='onreith_npm;  onreith_git; onreith_env; switch_to_on_network; switch_to_corporate_wireless;                                              newline; echo "Now on REITH. Run \"bbc mount\" to mount your network drives."; newline'
 alias offreith='offreith_npm; offreith_git; offreith_env; bbc unmount;  switch_to_off_network; make_sure_wifi_is_on; switch_to_bbc_staff_ssid; newline; echo "Now off REITH.";                                                newline'
 
 alias onreith_npm='npm config set proxy http://www-cache.reith.bbc.co.uk:80'
@@ -28,19 +28,22 @@ alias switch_to_off_network='sudo NewNetConfig -switchtolocation "BBC Off Networ
 
 alias make_sure_wifi_is_on='NewNetConfig -setairportpower $NETWORK_DEVICE on'
 
-alias switch_to_corporate_wireless='sudo NewNetConfig -removepreferredwirelessnetwork $NETWORK_DEVICE "Corporate_Wireless_Network"; sudo NewNetConfig -addpreferredwirelessnetworkatindex $NETWORK_DEVICE "Corporate_Wireless_Network" 0 WPA2E; networksetup -setairportpower $NETWORK_DEVICE off; networksetup -setairportpower $NETWORK_DEVICE on'
-alias switch_to_bbc_staff_ssid='sudo NewNetConfig -removepreferredwirelessnetwork $NETWORK_DEVICE "BBC Staff SSID"; sudo NewNetConfig -addpreferredwirelessnetworkatindex $NETWORK_DEVICE "BBC Staff SSID" 0 WPA2E; networksetup -setairportpower $NETWORK_DEVICE off; networksetup -setairportpower $NETWORK_DEVICE on'
+alias switch_to_corporate_wireless='sudo NewNetConfig -removepreferredwirelessnetwork $NETWORK_DEVICE "BBC Staff Wi-Fi";sudo NewNetConfig -removepreferredwirelessnetwork $NETWORK_DEVICE "Corporate_Wireless_Network"; sleep 1; sudo NewNetConfig -addpreferredwirelessnetworkatindex $NETWORK_DEVICE "Corporate_Wireless_Network" 0 WPA2E; sleep 1; networksetup -setairportpower $NETWORK_DEVICE off; sleep 1; networksetup -setairportpower $NETWORK_DEVICE on'
+alias switch_to_bbc_staff_ssid='sudo NewNetConfig -removepreferredwirelessnetwork $NETWORK_DEVICE "Corporate_Wireless_Network"; sleep 1; sudo NewNetConfig -removepreferredwirelessnetwork $NETWORK_DEVICE "BBC Staff Wi-Fi"; sleep 1; sudo NewNetConfig -addpreferredwirelessnetworkatindex $NETWORK_DEVICE "BBC Staff Wi-Fi" 0 WPA2E; sleep 1; networksetup -setairportpower $NETWORK_DEVICE off; sleep 1; networksetup -setairportpower $NETWORK_DEVICE on'
 
 alias newline='echo ""'
 
+alias whitelister="sh -c 'cd /Users/fewsta03/Sites/bbc/other/whitelister/; node whitelister.js'"
 alias bbc='~/Sites/bbc/news/special/utils/main.sh'
 alias bbcftp='~/Sites/ftp.pl'
-
 
 alias iframetest_setup='cd ~/.grunt-init/iframe-scaffold/root/newsspec_'
 alias iframetest_node='iframetest_setup && node_modules/.bin/vows tests/node/tests/*.js --verbose'
 alias iframetest_cucumber='iframetest_setup && node_modules/casperjs/bin/casperjs test --fail-fast tests/cucumber.js'
 alias iframetest='iframetest_node && iframetest_cucumber'
+alias scaffold_install='npm install && cd node_modules/developer-scaffold-iframe-wrapper && npm install && cd - && cd node_modules/developer-scaffold-full-width-wrapper && npm install && cd -'
+
+alias where_is_my_phone="node /Users/fewsta03/Sites/personal/findmyphone/index.js"
 
 export GRASS_PYTHON=/usr/bin/python2.6
 
@@ -49,12 +52,10 @@ alias unsafe-chrome='open -a Google\ Chrome --args --disable-web-security'
 export NVM_DIR="/Users/fewsta03/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
+alias dockenv='(docker-machine start dev || true) && eval "$(docker-machine env dev)"'
+
+export EDITOR='nvim'
+
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
-export PATH="$PATH:$HOME/.rvm/bin:/Users/fewsta03/Library/Python/3.5/bin" # Add RVM to PATH for scripting
-
-alias dockenv='eval "$(docker-machine env dev)"'
-
-export EDITOR='nvim'
