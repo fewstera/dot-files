@@ -4,7 +4,6 @@ fi
 
 export PATH=$PATH:/Users/fewsta03/.rvm/gems/ruby-2.3.0/bin
 export PATH=$PATH:~/.composer/vendor/bin
-export PATH=$PATH:/usr/local/Cellar/node012/0.12.7/libexec/npm/bin
 export PATH=/usr/local/bin:$PATH 
 
 #note you may need to change the below variable to en1
@@ -45,6 +44,8 @@ alias scaffold_install='npm install && cd node_modules/developer-scaffold-iframe
 
 alias where_is_my_phone="node /Users/fewsta03/Sites/personal/findmyphone/index.js"
 
+alias quickftp="/Users/fewsta03/ftp.pl"
+
 export GRASS_PYTHON=/usr/bin/python2.6
 
 alias unsafe-chrome='open -a Google\ Chrome --args --disable-web-security'
@@ -57,5 +58,13 @@ alias dockenv='(docker-machine start dev || true) && eval "$(docker-machine env 
 export EDITOR='nvim'
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export PATH="$PATH:$HOME/go/bin" # Add go to PATH
+
+export COSMOS_CERT=/Users/fewsta03/certificate.pem
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+export NODE_PATH=`which node`
+
+export NODE_PATH=$NODE_PATH:/Users/fewsta03/.nvm/versions/node/v6.9.4/lib/node_modules
+alias shorthander='node ~/Sites/bbc/shorthand-publishing-tool/shorthand'

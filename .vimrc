@@ -43,6 +43,7 @@ call dein#add('mustache/vim-mustache-handlebars')
 call dein#add('tpope/vim-surround')
 call dein#add('ntpeters/vim-better-whitespace')
 call dein#add('pangloss/vim-javascript')
+call dein#add('evanmiller/nginx-vim-syntax')
 call dein#add('jelera/vim-javascript-syntax', {'lazy': 1, 'autoload':{'filetypes':['javascript']}})
 
 " Required:
@@ -53,9 +54,9 @@ filetype plugin indent on
 syntax enable
 
 " If you want to install not installed plugins on startup.
-"if dein#check_install()
-"  call dein#install()
-"endif
+if dein#check_install()
+  call dein#install()
+endif
 
 "End dein Scripts-------------------------
 
@@ -64,15 +65,18 @@ syntax enable
 set number
 set background=dark
 set backspace=indent,eol,start
-set tabstop=4
 set nohlsearch
-set softtabstop=4
-set shiftwidth=4
 set expandtab
 set autoindent
 set smartindent
 set regexpengine=1
 set completeopt-=preview
+function! SetTabWidth(width)
+    let &tabstop=a:width
+    let &softtabstop=a:width
+    let &shiftwidth=a:width
+endfunction
+call SetTabWidth(4)
 
 let delimitMate_expand_cr = 1
 let g:delimitMate_expand_cr = 1
@@ -103,3 +107,7 @@ set undodir=$HOME/.vim/undo
 
 set undolevels=1000
 set undoreload=10000
+
+" See .spv as php files
+au BufRead,BufNewFile *.spv set syntax=php
+au BufRead,BufNewFile *.conf set ft=nginx
