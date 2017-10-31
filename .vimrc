@@ -1,3 +1,5 @@
+let g:loaded_python3_provider = 1
+
  "  Note: Skip initialization for vim-tiny or vim-small.
  if !1 | finish | endif
 
@@ -25,9 +27,8 @@ call dein#add('christoomey/vim-tmux-navigator')
 call dein#add('Lokaltog/vim-easymotion')
 call dein#add('altercation/vim-colors-solarized')
 call dein#add('terryma/vim-multiple-cursors')
-call dein#add('Valloric/YouCompleteMe')
+call dein#add('Valloric/YouCompleteMe', {'merged': 0})
 call dein#add('jlanzarotta/bufexplorer')
-call dein#add('bling/vim-airline')
 call dein#add('kien/ctrlp.vim')
 call dein#add('rking/ag.vim')
 call dein#add('scrooloose/nerdcommenter')
@@ -35,8 +36,9 @@ call dein#add('vim-scripts/JavaScript-Indent')
 call dein#add('marijnh/tern_for_vim')
 call dein#add('gorkunov/smartpairs.vim')
 call dein#add('Raimondi/delimitMate')
-call dein#add('vim-gitgutter')
+call dein#add('vim-scripts/vim-gitgutter')
 call dein#add('mattn/emmet-vim')
+call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
 call dein#add('dkprice/vim-easygrep')
 call dein#add('mustache/vim-mustache-handlebars')
@@ -44,6 +46,10 @@ call dein#add('tpope/vim-surround')
 call dein#add('ntpeters/vim-better-whitespace')
 call dein#add('pangloss/vim-javascript')
 call dein#add('evanmiller/nginx-vim-syntax')
+call dein#add('tpope/vim-fugitive')
+call dein#add('mxw/vim-jsx')
+call dein#add('HerringtonDarkholme/yats.vim')
+call dein#add('vim-scripts/groovy.vim')
 call dein#add('jelera/vim-javascript-syntax', {'lazy': 1, 'autoload':{'filetypes':['javascript']}})
 
 " Required:
@@ -92,8 +98,10 @@ nnoremap <silent> <Leader>p :BufExplorer<CR>
 "filetype plugin on
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*,*/bower_components/*,*/dist/*,*/content/*,*/compiled/*
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+
 let g:airline_theme = "badwolf"
-"let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 1
+"let g:airline#extensions#tabline#enabled = 1
 
 let g:gitgutter_override_sign_column_highlight = 0
 highlight SignColumn ctermbg=8
@@ -107,7 +115,14 @@ set undodir=$HOME/.vim/undo
 
 set undolevels=1000
 set undoreload=10000
+" Fix journostack
+set nofsync
 
 " See .spv as php files
 au BufRead,BufNewFile *.spv set syntax=php
 au BufRead,BufNewFile *.conf set ft=nginx
+
+let g:jsx_ext_required = 0
+
+" Enable mouse support
+if has('mouse') | set mouse=a | endif
