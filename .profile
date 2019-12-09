@@ -1,73 +1,35 @@
-if command -v tmux>/dev/null; then
-  [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux
-fi
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+    tmux
+  fi
 
-export PATH=$PATH:/Users/fewsta03/.rvm/gems/ruby-2.3.0/bin
+if which jenv > /dev/null; then eval "$(jenv init -)"; fi
+
+export PATH="$HOME/bin:$PATH"
+export PATH=/usr/local/sbin:$PATH
+export PATH=$PATH:/Users/aidanf/.rvm/gems/ruby-2.3.0/bin
 export PATH=$PATH:~/.composer/vendor/bin
-export PATH=/usr/local/bin:$PATH
-
-#note you may need to change the below variable to en1
-NETWORK_DEVICE=en0
-
-alias onreith='onreith_npm;  onreith_git; onreith_env; switch_to_on_network; switch_to_corporate_wireless; newline; echo "Now on REITH. Run \"bbc mount\" to mount your network drives."; newline'
-alias offreith='offreith_npm; offreith_git; offreith_env; bbc unmount; switch_to_off_network; switch_to_bbc_staff_ssid; newline; echo "Now off REITH."; newline'
-
-alias newline='echo ""'
-alias onreith_npm='npm config set proxy http://www-cache.reith.bbc.co.uk:80'
-alias offreith_npm='npm config rm proxy'
-alias onreith_git='git config --global http.proxy http://www-cache.reith.bbc.co.uk:80'
-alias offreith_git='git config --global --unset http.proxy'
-alias onreith_env='export http_proxy="http://www-cache.reith.bbc.co.uk:80"; export https_proxy="http://www-cache.reith.bbc.co.uk:80";export HTTP_PROXY="http://www-cache.reith.bbc.co.uk:80"; export HTTPS_PROXY="http://www-cache.reith.bbc.co.uk:80"'
-alias offreith_env='unset http_proxy; unset https_proxy; unset HTTP_PROXY; unset HTTPS_PROXY'
-
-# switch networks. (the > /dev/null suppresses output, without this the command always says "found it!" very helpfully!
-# note - I followed the following instructions (substituting username for ashtoc03) to make this stop asking for sudo: http://superuser.com/a/454612
-alias switch_to_on_network='sudo networksetup -switchtolocation "BBC On Network" > /dev/null'
-alias switch_to_off_network='sudo networksetup -switchtolocation "BBC Off Network" > /dev/null'
-
-alias switch_to_corporate_wireless='sudo networksetup -removepreferredwirelessnetwork $NETWORK_DEVICE "BBC Staff SSID"; sudo networksetup -removepreferredwirelessnetwork $NETWORK_DEVICE "BBC Staff Wi-Fi"; sudo networksetup -removepreferredwirelessnetwork $NETWORK_DEVICE "Corporate_Wireless_Network"; sudo networksetup -addpreferredwirelessnetworkatindex $NETWORK_DEVICE "Corporate_Wireless_Network" 0 WPA2E; networksetup -setairportpower $NETWORK_DEVICE off; sleep 2; networksetup -setairportpower $NETWORK_DEVICE on'
-alias switch_to_bbc_staff_ssid='sudo networksetup -removepreferredwirelessnetwork $NETWORK_DEVICE "Corporate_Wireless_Network"; sudo networksetup -removepreferredwirelessnetwork $NETWORK_DEVICE "BBC Staff SSID"; sudo networksetup -removepreferredwirelessnetwork $NETWORK_DEVICE "BBC Staff Wi-Fi"; sudo networksetup -addpreferredwirelessnetworkatindex $NETWORK_DEVICE "BBC Staff SSID" 0 WPA2E; sudo networksetup -addpreferredwirelessnetworkatindex $NETWORK_DEVICE "BBC Staff Wi-Fi" 0 WPA2E; networksetup -setairportpower $NETWORK_DEVICE off; sleep 2; networksetup -setairportpower $NETWORK_DEVICE on'
-
-alias whitelister="sh -c 'cd /Users/fewsta03/Sites/bbc/other/whitelister/; node whitelister.js'"
-alias bbc='~/Sites/bbc/news/special/utils/main.sh'
-alias bbcftp='~/Sites/ftp.pl'
-
-alias iframetest_setup='cd ~/.grunt-init/iframe-scaffold/root/newsspec_'
-alias iframetest_node='iframetest_setup && node_modules/.bin/vows tests/node/tests/*.js --verbose'
-alias iframetest_cucumber='iframetest_setup && node_modules/casperjs/bin/casperjs test --fail-fast tests/cucumber.js'
-alias iframetest='iframetest_node && iframetest_cucumber'
-alias scaffold_install='npm install && cd node_modules/developer-scaffold-iframe-wrapper && npm install && cd - && cd node_modules/developer-scaffold-full-width-wrapper && npm install && cd -'
-
-alias where_is_my_phone="node /Users/fewsta03/Sites/personal/findmyphone/index.js"
-
-alias quickftp="/Users/fewsta03/ftp.pl"
-
-export GRASS_PYTHON=/usr/bin/python2.6
-
-alias unsafe-chrome='open -a Google\ Chrome --args --disable-web-security'
-
-export NVM_DIR="/Users/fewsta03/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
-alias dockenv='(docker-machine start dev || true) && eval "$(docker-machine env dev)"'
+export PATH="$HOME/.jenv/shims:$PATH"
+export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
 
 export EDITOR='nvim'
+export EMAIL='aidan.fewster@acuris.com'
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-export PATH="$PATH:$HOME/go/bin" # Add go to PATH
+export PATH=$PATH:/usr/local/opt/go/libexec/bin # Add go to PATH
+export PATH=$PATH:$HOME/go/bin/:$HOME/Downloads/pact/bin/
+export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/opt/python/libexec/bin:$PATH
+export PATH=$HOME/Library/Python/3.7/bin:$PATH
 
-export COSMOS_CERT=/Users/fewsta03/certificate.pem
+export NVM_DIR="$HOME/.nvm"
+. "/usr/local/opt/nvm/nvm.sh"
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-export NODE_PATH=`which node`
-
-export NODE_PATH=$NODE_PATH:/Users/fewsta03/.nvm/versions/node/v6.9.4/lib/node_modules
+alias dev="cd /Users/aidanf/Development/"
+alias mmgo="cd /Users/aidanf/go/src/github.com/mergermarket"
 alias gpu="git rev-parse --abbrev-ref HEAD | xargs git push -u origin" # push new branch to origin
 alias aws_login="sh ~/Development/aws-accounts/login.sh"
-
-export DEV_CERT_PEM=/Users/fewsta03/certificate.pem
-export DEV_CA_PEM=/etc/pki/tls/certs/bbc-ca.pem
+alias where_is_my_phone="node /Users/aidanf/Documents/Backup/Sites/personal/findmyphone/index.js"
+alias unsafe-chrome='open -a Google\ Chrome --args --disable-web-security'
 
 encrypt-file() {
     openssl enc -aes-256-cbc -salt -in $1 -out $1.enc
@@ -78,4 +40,18 @@ decrypt-file() {
     openssl enc -aes-256-cbc -salt -d -in $1 -out $decryptName
 }
 
-#source ~/.morph_profile
+kill-port() {
+  if [ -z "$1" ]; then
+    echo "Usage: kill-port [port number]" >&2
+    return 1
+  fi
+  lsof -i TCP:$1 | awk '/LISTEN/{print $2}' | xargs kill -9
+}
+
+compinit
+
+source $HOME/Library/Python/3.7/bin/aws_zsh_completer.sh
+
+function start-aws-es-proxy {
+  docker run --rm  -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_SESSION_TOKEN -p 8080:8080 cllunsford/aws-signing-proxy:latest -region eu-west-1 -target "https://$(aws es describe-elasticsearch-domain --domain-name $1 | jq -r .DomainStatus.Endpoints.vpc)"
+}
