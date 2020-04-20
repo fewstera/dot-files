@@ -4,12 +4,17 @@ if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
 
 if which jenv > /dev/null; then eval "$(jenv init -)"; fi
 
+export GOROOT=/usr/local/opt/go/libexec
+export GOPATH=$HOME/go
+
 export PATH="$HOME/bin:$PATH"
 export PATH=/usr/local/sbin:$PATH
 export PATH=$PATH:/Users/aidanf/.rvm/gems/ruby-2.3.0/bin
 export PATH=$PATH:~/.composer/vendor/bin
 export PATH="$HOME/.jenv/shims:$PATH"
 export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOROOT/bin
 
 export EDITOR='nvim'
 export EMAIL='aidan.fewster@acuris.com'
@@ -45,13 +50,18 @@ kill-port() {
     echo "Usage: kill-port [port number]" >&2
     return 1
   fi
-  lsof -i TCP:$1 | awk '/LISTEN/{print $2}' | xargs kill -9
+  sudo lsof -i TCP:$1 | awk '/LISTEN/{print $2}' | xargs kill -9
 }
 
 compinit
 
-source $HOME/Library/Python/3.7/bin/aws_zsh_completer.sh
 
 function start-aws-es-proxy {
   docker run --rm  -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_SESSION_TOKEN -p 8080:8080 cllunsford/aws-signing-proxy:latest -region eu-west-1 -target "https://$(aws es describe-elasticsearch-domain --domain-name $1 | jq -r .DomainStatus.Endpoints.vpc)"
 }
+
+export GPG_TTY="$(tty)"
+export GOPRIVATE=github.com/mergermarket/*
+
+source $HOME/Library/Python/3.7/bin/aws_zsh_completer.sh
+source $HOME/.profile_secrets
