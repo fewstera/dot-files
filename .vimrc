@@ -1,5 +1,5 @@
 let g:python_host_prog = '/usr/local/bin/python2'
-let g:python3_host_prog = '/usr/bin/python3'
+let g:python3_host_prog = '/usr/local/opt/python@3.8/libexec/bin/python'
 
  "  Note: Skip initialization for vim-tiny or vim-small.
  if !1 | finish | endif
@@ -43,6 +43,7 @@ Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'hashivim/vim-terraform'
 Plugin 'fatih/vim-go'
 Plugin 'martinda/Jenkinsfile-vim-syntax'
+Plugin 'prettier/vim-prettier'
 call vundle#end()
 filetype plugin indent on
 syntax enable
@@ -67,6 +68,7 @@ let mapleader = "\<Space>"
 nnoremap <silent> <Leader>p :BufExplorer<CR>
 nnoremap <Leader>n :NERDTreeToggle<CR>
 nnoremap <leader>a :cclose<CR>
+nnoremap <leader><leader>p :PrettierAsync<CR>
 
 
 function! SetTabWidth(width)
@@ -105,6 +107,9 @@ highlight SignColumn ctermbg=8
 set rnu!
 nnoremap <silent><leader><leader>n :set rnu! rnu? <cr>
 
+" Make bufexplorer show relative paths
+let g:bufExplorerShowRelativePath=1
+
 " Add vim undo history
 set undofile
 set undodir=$HOME/.vim/undo
@@ -140,7 +145,11 @@ let g:go_list_type = "quickfix"
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
 autocmd FileType go nmap <Leader>i <Plug>(go-info)
+autocmd FileType go nmap <Leader>o :YcmCompleter GetType<CR>
+autocmd FileType go nmap <Leader>y <Plug>(go-alternate-edit)
 autocmd FileType go nmap <Leader>cv <Plug>(go-coverage-toggle)
+autocmd FileType javascript,typescript,typescriptreact,javascriptreact nnoremap <c-]> :YcmCompleter GoToDeclaration<CR>
+nnoremap <silent> <Leader><Leader>f :YcmCompleter FixIt<CR>
 
 " run :GoBuild or :GoTestCompile based on the go file
 function! s:build_go_files()
@@ -179,3 +188,6 @@ let g:EasyGrepReplaceWindowMode=2
 let g:EasyGrepRecursive=1
 let g:EasyGrepRoot="search:.git,.svn"
 
+nnoremap <F5> :YcmRestartServer<CR>:2sleep<CR>:YcmForceCompileAndDiagnostics<CR>
+
+com! FormatXML :%!python3 -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"

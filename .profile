@@ -15,6 +15,7 @@ export PATH="$HOME/.jenv/shims:$PATH"
 export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
+export PATH=$PATH:/Users/aidanf/Library/Python/3.8/bin/
 
 export EDITOR='nvim'
 export EMAIL='aidan.fewster@acuris.com'
@@ -22,12 +23,8 @@ export EMAIL='aidan.fewster@acuris.com'
 export PATH=$PATH:/usr/local/opt/go/libexec/bin # Add go to PATH
 export PATH=$PATH:$HOME/go/bin/:$HOME/Downloads/pact/bin/
 export PATH=/usr/local/bin:$PATH
-export PATH=/usr/local/opt/python/libexec/bin:$PATH
-export PATH=$HOME/Library/Python/3.7/bin:$PATH
-
-export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
-
+export PATH=/usr/local/opt/python@3.8/libexec/bin:$PATH
+export PATH="$HOME/.serverless/bin:$PATH"
 
 alias dev="cd /Users/aidanf/Development/"
 alias mmgo="cd /Users/aidanf/go/src/github.com/mergermarket"
@@ -63,5 +60,12 @@ function start-aws-es-proxy {
 export GPG_TTY="$(tty)"
 export GOPRIVATE=github.com/mergermarket/*
 
-source $HOME/Library/Python/3.7/bin/aws_zsh_completer.sh
 source $HOME/.profile_secrets
+
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+
+autoload bashcompinit && bashcompinit
+complete -C aws_completer aws
